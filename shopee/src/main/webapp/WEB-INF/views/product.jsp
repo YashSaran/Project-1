@@ -14,6 +14,7 @@
 	<header class="header-v4">
 		<!-- Header desktop -->
 	<%@include file="templates/navbar.jsp" %>
+	
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">

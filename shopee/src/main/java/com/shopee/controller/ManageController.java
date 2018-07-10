@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ import com.shoppingBackend.DAO.SupplierDAO;
 import com.shoppingBackend.model.Category;
 import com.shoppingBackend.model.Product;
 import com.shoppingBackend.model.Supplier;
+
+import util.FileUtil;
 
 @Controller
 @RequestMapping("/manage")
@@ -186,17 +190,30 @@ try {
 			
 			@RequestParam("image2")MultipartFile image2,
 			
-			@RequestParam("image3")MultipartFile image3) {
+			@RequestParam("image3")MultipartFile image3,
+			HttpServletRequest request) {
 		
+		
+		/*if(image1.isEmpty() && image2.isEmpty() && image3.isEmpty()){
+			return "redirect:/manage/prodReg";
+		}*/
 		
 		if(image1.isEmpty() && image2.isEmpty() && image3.isEmpty()){
-			return "redirect:/manage/prodReg";
+			FileUtil.uploadNoImage(request, product.getCode());
+		}
+		else {
+			MultipartFile file[]=new MultipartFile[3];
+			file[0]=image1;
+			file[1]=image2;
+			file[2]=image3;
+			
+			FileUtil.uploadFile(request, file, product.getCode());
 		}
 		
 		
 		
 		
-		
+		/*
 		try {
 			
 			String b="C:\\Users\\hp\\eclipse-workspace\\shopee\\src\\main\\webapp\\resources\\images\\"+product.getCode()+"\\";
@@ -221,7 +238,7 @@ try {
 		}
 		catch(IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 		productDAO.addProduct(product);
 		return "redirect:/manage/prodReg";
 	}
