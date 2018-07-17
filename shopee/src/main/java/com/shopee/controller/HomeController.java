@@ -125,6 +125,12 @@ public class HomeController {
 		    b=b+a.getBuyingPrice();
 		}
 		model.addAttribute("total",b);
+		double e=b*1.1;
+		model.addAttribute("total1",e);
+		
+		cart.setGrandTotal(e);
+		cartDAO.updateCart(cart);
+
 		return "shoping-cart";
 
 	}
@@ -314,5 +320,48 @@ public class HomeController {
 		return "redirect:/shoping-cart";
 
 	}
+	@RequestMapping("/usershow/{userid}")
+	public String gooEdit(@PathVariable("userid") int userid, Model model) {
+		User obj = userDAO.getSingleUser(userid);
+		model.addAttribute("user", obj);
+		return "usershow";
+	}
+	@RequestMapping(value = "/usershow", method = RequestMethod.POST)
+	public String updateSg(@ModelAttribute("user") User user, Model model) {
+		userDAO.updateUser(user);
+		return "billing";
+	}
+	@RequestMapping(value = "/billing")
+	public String updat(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+
+		Cart cart = cartDAO.getByEmailid(email);
+		model.addAttribute("total",cart.getGrandTotal());
+		return "billing";
+	}
+	@RequestMapping(value = "/checkout")
+	public String upat(Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+
+		Cart cart = cartDAO.getByEmailid(email);
+		List<CartLine> lst = cartDAO.list(cart.getId());
+		model.addAttribute("lst", lst);
+		double b=0.0;
+		for (CartLine a : lst) {
+		    b=b+a.getBuyingPrice();
+		}
+		model.addAttribute("total",b);
+		double e=b*1.1;
+		model.addAttribute("total1",e);
+		
+		cart.setGrandTotal(e);
+		cartDAO.updateCart(cart);
+
+		return "bill";
+	}
+	
+
 
 }

@@ -16,6 +16,15 @@ public class User {
 	private String password;
 	private boolean enable;
 	private String role;
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public boolean isEnable() {
 		return enable;

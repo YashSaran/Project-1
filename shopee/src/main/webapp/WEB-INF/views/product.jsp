@@ -101,7 +101,7 @@
 		<c:forEach items="${prodlist}" var="pro">
             <li class="span4">
               <div class="thumbnail">
-                <img src="${pageContext.request.contextPath}/resources/images/${pro.code}/1.jpg" alt="ALT NAME">
+                <img src="${pageContext.request.contextPath}/resources/images/${pro.code}/1.jpg" alt="ALT NAME" height="500px" width="300px">
                 <div class="caption">
                   <h3>${pro.name}</h3>
                   <p>${pro.description}</p>
@@ -118,11 +118,7 @@
 	</div>
 </div>
 				<!-- Load more -->
-				<div class="flex-c-m flex-w w-full p-t-45">
-					<a href="#"
-						class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-						Load More </a>
-				</div>
+				
 			</div>
 		</div>
 

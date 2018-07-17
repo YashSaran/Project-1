@@ -15,7 +15,7 @@
 <!-- Title page -->
 	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('${images}/bg-01.jpg');">
 		<h2 class="ltext-105 cl0 txt-center">
-			Shopping Cart
+			Bill
 		</h2>
 	</section>
 
@@ -55,7 +55,7 @@
 									<th class="column-4">Quantity</th>
 									<th class="column-5">Total</th>
 								</tr>
-							<c:forEach items="${cartList}" var="cart">
+							<c:forEach items="${lst}" var="cart">
 								<tr class="table_row">
 									<td class="column-1">
 										<div class="how-itemcart1">
@@ -73,20 +73,14 @@
 							</table>
 						</div>
 
-						<div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
-							
-
-							<div class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
-								Update Cart
-							</div>
-						</div>
+						
 					</div>
 				</div>
 
 				<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
 					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
 						<h4 class="mtext-109 cl2 p-b-30">
-							Cart Totals
+							Total
 						</h4>
 
 						<div class="flex-w flex-t bor12 p-b-13">
@@ -119,8 +113,8 @@
 							</div>
 						</div>
 
-						<a href="${contextPath}/usershow/${user.userid}" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-							Proceed to Checkout
+						<a href="${contextPath}/product" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+							Continue shopping
 						</a>
 					</div>
 				</div>

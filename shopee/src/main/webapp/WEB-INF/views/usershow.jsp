@@ -28,7 +28,7 @@
 </head>
 <body>
 	<form:form class="form-horizontal" modelAttribute="user"
-		action="${pageContext.request.contextPath}/updateUser" method="post">
+		action="${pageContext.request.contextPath}/billing" method="post">
 		<form:hidden path="userid" />
 		<fieldset>
 
