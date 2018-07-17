@@ -121,7 +121,7 @@
 									</span>
 
 									<span class="stext-109 cl3 txt-center">
-										Jan 2018
+										JUN 2018
 									</span>
 								</div>
 							</a>
@@ -134,7 +134,7 @@
 								</h4>
 
 								<p class="stext-117 cl6">
-								Winter is a agreat way to show off click on continue reading to know more
+								Winter is a a great way to show off click on continue reading to know more
 								</p>
 
 								<div class="flex-w flex-sb-m p-t-18">
@@ -174,7 +174,7 @@
 									</span>
 
 									<span class="stext-109 cl3 txt-center">
-										Jan 2018
+										JUN 2018
 									</span>
 								</div>
 							</a>
@@ -227,7 +227,7 @@
 									</span>
 
 									<span class="stext-109 cl3 txt-center">
-										Jan 2018
+										JUN 2018
 									</span>
 								</div>
 							</a>

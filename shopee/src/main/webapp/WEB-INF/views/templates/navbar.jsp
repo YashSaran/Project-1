@@ -1,13 +1,26 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <spring:url var="css" value="/resources/css" />
 <spring:url var="fonts" value="/resources/fonts" />
 <spring:url var="images" value="/resources/images" />
 <spring:url var="js" value="/resources/js" />
 <spring:url var="vendor" value="/resources/vendor" />
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <head>
+
 <title>Home 02</title>
+<link
+	href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -60,36 +73,51 @@
 			<nav class="limiter-menu-desktop p-l-45">
 
 				<!-- Logo desktop -->
-				<a href="home" class="logo"> <img src="${images}/icons/logo-01.png"
-					alt="IMG-LOGO">
+				<a href="home" class="logo"> <img
+					src="${images}/icons/logo-01.png" alt="IMG-LOGO">
 				</a>
 
 				<!-- Menu desktop -->
 				<div class="menu-desktop">
 					<ul class="main-menu">
-						<li><a href="${contextPath}/home">Home</a>
-							</li>
-						
+						<li><a href="${contextPath}/home">Home</a></li>
+
 						<li><a href="${contextPath}/product">Shop</a></li>
-						
-						
+
+
 
 						<li><a href="${contextPath}/blog">Blog</a></li>
 
 						<li><a href="${contextPath}/about">About</a></li>
 
 						<li><a href="${contextPath}/contact">Contact</a></li>
-						<li><a href="#">Manage</a><ul class="sub-menu">
-								<li><a href="${contextPath}/manage/CatReg">Category Manager</a></li>
-						<li><a href="${contextPath}/manage/prodReg">Product Manager</a></li>
-						<li><a href="${contextPath}/manage/SupplierReg">Supplier Manager</a></li>
-						
 
-							</ul></li>
-							
+						<c:if test="${user.role=='ROLE_ADMIN'}">
+							<li><a href="#">Manage</a>
+							<ul class="sub-menu">
+									<li><a href="${contextPath}/manage/CatReg">Category
+											Manager</a></li>
+									<li><a href="${contextPath}/manage/prodReg">Product
+											Manager</a></li>
+									<li><a href="${contextPath}/manage/SupplierReg">Supplier
+											Manager</a></li>
+
+
+								</ul></li>
+						</c:if>
+						<c:if test="${user.name==''}">
 							<li><a href="${contextPath}/register">Sign up</a></li>
-					<li ><a href="${contextPath}/shoping-cart">Shopping cart</a>
-						</li></ul>
+						</c:if>
+						<li><a href="${contextPath}/shoping-cart">Shopping cart</a></li>
+						<c:if test="${user.name!=''}">
+							<li><a href="#">welcome ${user.name}</a>
+							<ul class="sub-menu">
+									<li><a href="${contextPath}/logout">Logout</a></li>
+
+
+								</ul></li>
+						</c:if>
+					</ul>
 				</div>
 
 				<!-- Icon header -->
@@ -105,7 +133,8 @@
 						<div
 							class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart"
 							data-notify="2">
-							<a href="${contextPath}/shoping-cart"><i class="zmdi zmdi-shopping-cart"></i></a>
+							<a href="${contextPath}/shoping-cart"><i
+								class="zmdi zmdi-shopping-cart"></i></a>
 						</div>
 					</div>
 
@@ -160,9 +189,6 @@
 <!-- Slider -->
 <section class="section-slide">
 	<div class="wrap-slick1 rs1-slick1">
-		<div class="slick1">
-
-			
-		</div>
+		<div class="slick1"></div>
 	</div>
 </section>

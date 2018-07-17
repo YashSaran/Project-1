@@ -11,5 +11,6 @@ public interface UserDAO {
 	public boolean updateUser(User user);
 	public boolean DeleteUser(int userid);
 	public User getSingleUser(int userid);
+	public User getSingleUser1(String emailid);
 	public List<User> getAllUser();
 }

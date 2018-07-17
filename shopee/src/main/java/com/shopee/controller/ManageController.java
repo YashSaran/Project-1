@@ -84,35 +84,20 @@ public String updates(@ModelAttribute("product")Product product, Model model,
 			
 			@RequestParam("image2")MultipartFile image2,
 			
-			@RequestParam("image3")MultipartFile image3) {
-try {
-			
-			String b="C:\\Users\\hp\\eclipse-workspace\\shopee\\src\\main\\webapp\\resources\\images\\"+product.getCode()+"\\";
-			
-			new File(b).mkdirs();
-			
-			byte bytes1[]=image1.getBytes();
-			Path path1=Paths.get(b+"1.jpg");
-			
-			byte bytes2[]=image2.getBytes();
-			Path path2=Paths.get(b+"2.jpg");
-			
-			byte bytes3[]=image3.getBytes();
-			Path path3=Paths.get(b+"3.jpg");
-			
-			
-			
-			
-			Files.write(path1, bytes1);
-			Files.write(path2, bytes2);
-			Files.write(path3, bytes3);
+			@RequestParam("image3")MultipartFile image3,HttpServletRequest request) {
+		if(image1.isEmpty() && image2.isEmpty() && image3.isEmpty()){
+			FileUtil.uploadNoImage(request, product.getCode());
 		}
-		catch(IOException e) {
-			e.printStackTrace();
+		else {
+			MultipartFile file[]=new MultipartFile[3];
+			file[0]=image1;
+			file[1]=image2;
+			file[2]=image3;
+			
+			FileUtil.uploadFile(request, file, product.getCode());
 		}
 		productDAO.updateProduct(product);
-		return "redirect:/manage/prodReg";
-	}
+		return "redirect:/manage/prodReg";}
 
 	@RequestMapping(value = "/deleteProd/{prodid}")
 	public String goToDel(@PathVariable("prodid") int prodid, Model model) {

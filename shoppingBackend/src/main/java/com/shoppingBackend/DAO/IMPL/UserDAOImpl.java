@@ -60,6 +60,17 @@ public class UserDAOImpl implements UserDAO {
 		}
 	}
 
+	@Override
+	public User getSingleUser1(String emailid) {
+		try {
+			return (User) sessionFactory.getCurrentSession().createQuery("from User where emailid=:emailid")
+					.setParameter("emailid", emailid).getSingleResult();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUser() {

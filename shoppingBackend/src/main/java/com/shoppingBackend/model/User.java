@@ -14,6 +14,24 @@ public class User {
 	private String name;
 	private String mobile;
 	private String password;
+	private boolean enable;
+	private String role;
+
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	public int getUserid() {
 		return userid;

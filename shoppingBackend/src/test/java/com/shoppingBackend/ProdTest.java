@@ -31,7 +31,7 @@ public class ProdTest {
 		Product stud=new Product();
 		stud.setCategoryid("sapru marg");
 		stud.setName("885463534");
-		stud.setPrice("yash");
+		stud.setPrice(544);
 		stud.setStock("yash");
 		stud.setSupplierid("yash");
 		stud.setDescription("yash");

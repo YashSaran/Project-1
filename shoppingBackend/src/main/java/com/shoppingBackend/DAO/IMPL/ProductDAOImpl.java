@@ -82,5 +82,38 @@ public class ProductDAOImpl implements ProductDAO {
 		}
 
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> getByFilter(String min,String max) {
+		try {
+			return sessionFactory.getCurrentSession().createQuery("from Product where price between:min and max").setParameter("min",min).setParameter("max",max).list();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> getByPriceDesc() {
+		try {
+			return sessionFactory.getCurrentSession().createQuery("from Product order by price").list();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Product> getByPriceAsc() {
+		try {
+			return sessionFactory.getCurrentSession().createQuery("from Product order by price desc").list();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
+	}
 
 }

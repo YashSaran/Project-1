@@ -11,4 +11,10 @@ public interface ProductDAO {
 	public Product getSingleProduct(int prodid);
 	public List<Product> getAllProduct();
 	public List<Product> getByCategory(String categoryid);
+	public List<Product> getByFilter(String min,String max);
+	public List<Product> getByPriceDesc();
+	public List<Product> getByPriceAsc();
+
+	
+
 }

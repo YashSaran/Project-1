@@ -16,7 +16,7 @@ public class Product {
 	@GeneratedValue
 	private int prodid;
 	private String name;
-	private String price;
+	private int price;
 	private String categoryid;
 	private String supplierid;
 	private String stock;
@@ -51,10 +51,10 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPrice() {
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(String price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public String getCategoryid() {

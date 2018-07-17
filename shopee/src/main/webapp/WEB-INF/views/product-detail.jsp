@@ -189,7 +189,7 @@
 					<h4 class="mtext-105 cl2 js-name-detail p-b-14">
 						${product.name}</h4>
 
-					<span class="mtext-106 cl2"> ${product.price} </span>
+					<span class="mtext-106 cl2"> Rs.${product.price} </span>
 
 					<p class="stext-102 cl3 p-t-23">${product.description}</p>
 

@@ -1,4 +1,5 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script>
 
 <%@include file="templates/navbar.jsp"%>
 
