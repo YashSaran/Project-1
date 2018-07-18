@@ -21,19 +21,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.shoppingBackend.DAO.CartDAO;
 import com.shoppingBackend.DAO.CategoryDAO;
+import com.shoppingBackend.DAO.OrderDAO;
 import com.shoppingBackend.DAO.ProductDAO;
 import com.shoppingBackend.DAO.SupplierDAO;
 import com.shoppingBackend.DAO.UserDAO;
 import com.shoppingBackend.model.Cart;
 import com.shoppingBackend.model.CartLine;
+import com.shoppingBackend.model.Order;
 import com.shoppingBackend.model.Product;
+import com.shoppingBackend.model.Supplier;
 import com.shoppingBackend.model.User;
 
 @Controller
 public class HomeController {
 	@Autowired
 	CartDAO cartDAO;
-
+	@Autowired
+	OrderDAO orderDAO;
 	@Autowired
 	Cart cart;
 	@Autowired
@@ -44,14 +48,13 @@ public class HomeController {
 	SupplierDAO supplierDAO;
 	@Autowired
 	CategoryDAO categoryDAO;
-	
+
 	@Autowired
 	CartLine cartLine;
-	
-	
 
 	@RequestMapping(value = "/")
 	public String home(Model model) {
+
 		model.addAttribute("product", new Product());
 		model.addAttribute("prodlist", productDAO.getAllProduct());
 		return "home";
@@ -78,12 +81,6 @@ public class HomeController {
 	@RequestMapping("/contact")
 	public String cont() {
 		return "contact";
-
-	}
-
-	@RequestMapping("/home-03")
-	public String hom() {
-		return "home-03";
 
 	}
 
@@ -118,16 +115,16 @@ public class HomeController {
 
 		Cart cart = cartDAO.getByEmailid(email);
 		List<CartLine> lst = cartDAO.list(cart.getId());
-		model.addAttribute("lst",lst);
+		model.addAttribute("lst", lst);
 		model.addAttribute("cartList", cartDAO.listAvailable(cart.getId()));
-		double b=0.0;
+		double b = 0.0;
 		for (CartLine a : lst) {
-		    b=b+a.getBuyingPrice();
+			b = b + a.getBuyingPrice();
 		}
-		model.addAttribute("total",b);
-		double e=b*1.1;
-		model.addAttribute("total1",e);
-		
+		model.addAttribute("total", b);
+		double e = b * 1.1;
+		model.addAttribute("total1", e);
+
 		cart.setGrandTotal(e);
 		cartDAO.updateCart(cart);
 
@@ -196,15 +193,11 @@ public class HomeController {
 	}
 
 	@RequestMapping("/home")
-	public String l(Model model,HttpSession session) {
+	public String l(Model model, HttpSession session) {
+
 		model.addAttribute("product", new Product());
 		model.addAttribute("prodlist", productDAO.getAllProduct());
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String name = auth.getName();
-		System.out.println("hi");
-		User user = userDAO.getSingleUser1(name);
-		session.setAttribute("user", user);
-		session.setAttribute("name", name);
+
 		return "home";
 
 	}
@@ -270,10 +263,13 @@ public class HomeController {
 	public String lis(Model model, HttpSession session) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
-		System.out.println("hi");
 		User user = userDAO.getSingleUser1(name);
 		session.setAttribute("user", user);
-		session.setAttribute("name", name);
+		String a = user.getEmailid();
+		Cart cart = cartDAO.getByEmailid(a);
+
+		int size = cartDAO.listAvailable(cart.getId()).size();
+		session.setAttribute("size", size);
 
 		return "redirect:/home";
 
@@ -292,10 +288,9 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/addcart/{prodid}")
-	public String pr1(@PathVariable("prodid") int prodid, @RequestParam("qty") int quntity, Model model) {
+	public String pr1(@PathVariable("prodid") int prodid, @RequestParam("qty") int quntity, Model model,
+			HttpSession session) {
 		Product obj = productDAO.getSingleProduct(prodid);
-	
-		
 
 		cartLine.setProduct(obj);
 		cartLine.setProductCount(quntity);
@@ -309,59 +304,93 @@ public class HomeController {
 		System.out.println(obj.getPrice());
 		System.out.println(email);
 		System.out.println(cart.getId());
-		cartLine.setTotal(quntity*obj.getPrice());
+		cartLine.setTotal(quntity * obj.getPrice());
 		cartDAO.add(cartLine);
-		
+
 		cart.setCartLines(cartDAO.listAvailable(cart.getId()).size());
 		cartDAO.updateCart(cart);
-		
-		
-		
+
+		int size = cartDAO.listAvailable(cart.getId()).size();
+		session.setAttribute("size", size);
+
 		return "redirect:/shoping-cart";
 
 	}
+
 	@RequestMapping("/usershow/{userid}")
 	public String gooEdit(@PathVariable("userid") int userid, Model model) {
 		User obj = userDAO.getSingleUser(userid);
 		model.addAttribute("user", obj);
 		return "usershow";
 	}
+
 	@RequestMapping(value = "/usershow", method = RequestMethod.POST)
 	public String updateSg(@ModelAttribute("user") User user, Model model) {
 		userDAO.updateUser(user);
 		return "billing";
 	}
+
 	@RequestMapping(value = "/billing")
 	public String updat(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 
 		Cart cart = cartDAO.getByEmailid(email);
-		model.addAttribute("total",cart.getGrandTotal());
+		model.addAttribute("total", cart.getGrandTotal());
 		return "billing";
 	}
+
 	@RequestMapping(value = "/checkout")
-	public String upat(Model model) {
+	public String upat(Model model, HttpSession session) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
 
 		Cart cart = cartDAO.getByEmailid(email);
 		List<CartLine> lst = cartDAO.list(cart.getId());
 		model.addAttribute("lst", lst);
-		double b=0.0;
+		double b = 0.0;
 		for (CartLine a : lst) {
-		    b=b+a.getBuyingPrice();
+			b = b + a.getBuyingPrice();
 		}
-		model.addAttribute("total",b);
-		double e=b*1.1;
-		model.addAttribute("total1",e);
-		
+		model.addAttribute("total", b);
+		double e = b * 1.1;
+		model.addAttribute("total1", e);
+
 		cart.setGrandTotal(e);
+		Order order = new Order();
+		User user = (User) session.getAttribute("user");
+		order.setAddress(user.getAddress());
+		order.setGrandtotal((int) e);
+		order.setGrandtotal(e);
+		order.setName(user.getName());
+		order.setQuantity(cart.getCartLines());
+		
+		
+		
+		
+Product p=lst.get(0).getProduct();
+String v=p.getSupplierid();
+Supplier c=supplierDAO.getSingleSupplier(Integer.parseInt(v));
+order.setSuppliername(c.getSuppliername());
+		orderDAO.addOrder(order);
 		cartDAO.updateCart(cart);
-
-		return "bill";
+		for(CartLine cartline:lst) {
+				cartDAO.remove(cartline);
+				
+		}
+		
+		session.setAttribute("size", 0);
+return "redirect:/product";
 	}
-	
-
+	/*
+	 * @RequestMapping(value = "/regOrder") public String
+	 * rego(@ModelAttribute("order") Order order) { orderDAO.addOrder(order);
+	 * 
+	 * 
+	 * 
+	 * return "redirect:/product";
+	 * 
+	 * }
+	 */
 
 }

@@ -80,12 +80,9 @@
 									class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">${pro.name}</a><br>
 									Rs.${pro.price} <br> Description:${pro.description}<br>
 									<br> <br>
-									<a href="addcart/${pro.prodid}?qty=1"
-					class="fas fa-edit btn btn-info">Add to cart</a>
-								<button id="button2id" name="button2id" type="submit"
-										class="btn btn-success">Buy now</button>
+									
 										<a href="addcart/${pro.prodid}?qty=1"><button id="button3id" name="button3id" type="submit"
-										class="btn btn-success">add to cart/button</td></a>
+										class="btn btn-success">add to cart</td></a>
 
 							</tr>
 
@@ -95,28 +92,7 @@
 				
 				
 
-<div class="container">
-	<div class="row">
-		<ul class="thumbnails">
-		<c:forEach items="${prodlist}" var="pro">
-            <li class="span4">
-              <div class="thumbnail">
-                <img src="${pageContext.request.contextPath}/resources/images/${pro.code}/1.jpg" alt="ALT NAME" height="500px" width="300px">
-                <div class="caption">
-                  <h3>${pro.name}</h3>
-                  <p>${pro.description}</p>
-                  <p align="center"><a href="http://bootsnipp.com/" class="btn btn-primary btn-block">Open</a></p>
-                </div>
-              </div>
-            </li>
-              </c:forEach>
-             
-           
-              
-              
-        </ul>
-	</div>
-</div>
+
 				<!-- Load more -->
 				
 			</div>

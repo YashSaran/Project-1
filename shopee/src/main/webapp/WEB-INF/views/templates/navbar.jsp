@@ -1,4 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <spring:url var="css" value="/resources/css" />
 <spring:url var="fonts" value="/resources/fonts" />
@@ -72,7 +75,9 @@
 		<div class="wrap-menu-desktop">
 			<nav class="limiter-menu-desktop p-l-45">
 
+
 				<!-- Logo desktop -->
+
 				<a href="home" class="logo"> <img
 					src="${images}/icons/logo-01.png" alt="IMG-LOGO">
 				</a>
@@ -94,7 +99,7 @@
 
 						<c:if test="${user.role=='ROLE_ADMIN'}">
 							<li><a href="#">Manage</a>
-							<ul class="sub-menu">
+								<ul class="sub-menu">
 									<li><a href="${contextPath}/manage/CatReg">Category
 											Manager</a></li>
 									<li><a href="${contextPath}/manage/prodReg">Product
@@ -105,45 +110,39 @@
 
 								</ul></li>
 						</c:if>
-						<c:if test="${user.name==''}">
+						<c:if test="${user.emailid==''}">
 							<li><a href="${contextPath}/register">Sign up</a></li>
 						</c:if>
-						<li><a href="${contextPath}/shoping-cart">Shopping cart</a></li>
-						<c:if test="${user.name!=''}">
+						
+						<sec:authorize access="isAuthenticated()">
 							<li><a href="#">welcome ${user.name}</a>
-							<ul class="sub-menu">
+								<ul class="sub-menu">
 									<li><a href="${contextPath}/logout">Logout</a></li>
 
 
 								</ul></li>
-						</c:if>
+						</sec:authorize>
+						<sec:authorize access="isAnonymous()">
+							<li><a href="${contextPath}/login">login</a>
+								
+						</sec:authorize>
 					</ul>
 				</div>
 
 				<!-- Icon header -->
 				<div class="wrap-icon-header flex-w flex-r-m h-full">
-					<div class="flex-c-m h-full p-r-24">
-						<div
-							class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-modal-search">
-							<i class="zmdi zmdi-search"></i>
-						</div>
-					</div>
+					
 
 					<div class="flex-c-m h-full p-l-18 p-r-25 bor5">
 						<div
 							class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart"
-							data-notify="2">
+							data-notify="${size}">
 							<a href="${contextPath}/shoping-cart"><i
 								class="zmdi zmdi-shopping-cart"></i></a>
 						</div>
 					</div>
 
-					<div class="flex-c-m h-full p-lr-19">
-						<div
-							class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-sidebar">
-							<i class="zmdi zmdi-menu"></i>
-						</div>
-					</div>
+					
 				</div>
 			</nav>
 		</div>
