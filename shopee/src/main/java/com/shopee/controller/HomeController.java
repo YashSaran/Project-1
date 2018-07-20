@@ -119,7 +119,7 @@ public class HomeController {
 		model.addAttribute("cartList", cartDAO.listAvailable(cart.getId()));
 		double b = 0.0;
 		for (CartLine a : lst) {
-			b = b + a.getBuyingPrice();
+			b = b + a.getTotal();
 		}
 		model.addAttribute("total", b);
 		double e = b * 1.1;
@@ -290,28 +290,57 @@ public class HomeController {
 	@RequestMapping(value = "/addcart/{prodid}")
 	public String pr1(@PathVariable("prodid") int prodid, @RequestParam("qty") int quntity, Model model,
 			HttpSession session) {
-		Product obj = productDAO.getSingleProduct(prodid);
 
-		cartLine.setProduct(obj);
-		cartLine.setProductCount(quntity);
-		cartLine.setBuyingPrice(obj.getPrice());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String email = auth.getName();
-
-		Cart cart = cartDAO.getByEmailid(email);
-		cartLine.setCartId(cart.getId());
-		System.out.println(quntity);
-		System.out.println(obj.getPrice());
+		System.out.println("User email"+email);
+		if(email.equals("anonymousUser")) {
+			return "redirect:/login";
+		}
 		System.out.println(email);
+		Cart cart = cartDAO.getByEmailid(email);
 		System.out.println(cart.getId());
-		cartLine.setTotal(quntity * obj.getPrice());
-		cartDAO.add(cartLine);
+		Product obj = productDAO.getSingleProduct(prodid);
+		System.out.println(obj.getProdid());
+		List<CartLine> lst = cartDAO.listAvailable(cart.getId());
+		boolean flag = false;
+		int id = 0;
+		for (CartLine crtln : lst) {
+			if (crtln.getProduct().getProdid() == obj.getProdid()) {
+				flag = true;
+				id=crtln.getId();
+				break;
+			}
+		}
+		if (flag) {
+			
+			
+			
+			CartLine crtln = cartDAO.get(id);
+			
+			crtln.setProductCount(crtln.getProductCount() + 1);
+			crtln.setTotal(crtln.getProductCount()*crtln.getBuyingPrice());
+			cartDAO.update(crtln);
+		} else {
+			cartLine.setProduct(obj);
+			cartLine.setProductCount(quntity);
+			cartLine.setBuyingPrice(obj.getPrice());
+			cartLine.setCartId(cart.getId());
+			System.out.println(quntity);
+			System.out.println(obj.getPrice());
+			System.out.println(email);
+			System.out.println(cart.getId());
+			cartLine.setTotal(quntity * (obj.getPrice()));
+			cartDAO.add(cartLine);
+		}
 
 		cart.setCartLines(cartDAO.listAvailable(cart.getId()).size());
 		cartDAO.updateCart(cart);
 
 		int size = cartDAO.listAvailable(cart.getId()).size();
 		session.setAttribute("size", size);
+
+	
 
 		return "redirect:/shoping-cart";
 
@@ -336,9 +365,21 @@ public class HomeController {
 		String email = auth.getName();
 
 		Cart cart = cartDAO.getByEmailid(email);
+		List<CartLine> lst = cartDAO.list(cart.getId());
+		model.addAttribute("lst", lst);
+		model.addAttribute("cartList", cartDAO.listAvailable(cart.getId()));
+		double b = 0.0;
+		for (CartLine a : lst) {
+			b = b + a.getBuyingPrice();
+		}
+		model.addAttribute("total", b);
+		double e = b * 1.1;
+		model.addAttribute("total1", e);
+
 		model.addAttribute("total", cart.getGrandTotal());
-		return "billing";
+		return "bill";
 	}
+	
 
 	@RequestMapping(value = "/checkout")
 	public String upat(Model model, HttpSession session) {
@@ -392,5 +433,11 @@ return "redirect:/product";
 	 * 
 	 * }
 	 */
+	@RequestMapping(value = "/del/{id}")
+	public String gooDel(@PathVariable("id") int id, Model model) {
+		CartLine cartLine =cartDAO.get(id);
+		cartDAO.remove(cartLine);
+		return "redirect:/shoping-cart";
+	}
 
 }
